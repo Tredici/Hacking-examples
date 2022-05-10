@@ -3,16 +3,19 @@ CPPFLAGS = -Wextra -Wall
 
 EXE=
 
-main+=main
+EXE+=main
 main: main.o
 
 hexmain: main
 
+EXE+=hexmain.txt
 hexdump: main
 	xxd main > hexmain.txt
 
+EXE+=hackedmain
 rehex: hexmain.txt
 	xxd -r hexmain.txt hackedmain
+	chmod u+x hackedmain
 
 disassemble: main
 	objdump -d main > main.S

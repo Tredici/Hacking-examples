@@ -6,7 +6,11 @@ Qui è mostrato un esempio di attacco nel quale un utente malintenzionato che no
 # Attacco
 Si supponga di disporre solo dell'eseguibile del compilato di main.cc (qui disponibile per praticità) e di volerne alterare il comportamento.
 Dall'analisi del disassemblato è possibile vedere la presenza di un'istruzione JE (Jump if Equal) nel sorgente, identificata dalla sequenza esadecimale 0x74, la quale segue immediatamente il confronto della password fornita dall'utente con quella "corretta".
-L'attacco consiste nel sostituire l'istruzione macchina JE con una JNE (Jump if Not Equal), identificata dalla sequenza esadecimale 0x74.
+L'attacco consiste nel sostituire l'istruzione macchina JE con una JNE (Jump if Not Equal), identificata dalla sequenza esadecimale 0x75, per far schegliere il branch dell'if opposto a quello scelto nel programma originale.
+
+# Evoluzione
+È possibile ottenere un attacco ancora più efficace (in cui il risultato del confronto delle password è totalmente ignorato) sostutuendo l'istruzione di salto condizionato con una di salto incondizionato, ovvero con una JMP (opcode EB).
+Nel qual caso si voglia far scegliere il branch opposto all'eseguibile è sufficiente sostituire l'istruzione di JMP con una più o meno breve sequenza di NOP (opcode 0x90, 0x6690, ... a seconda di quanti byte si voglia riempire con una sola istruzione).
 
 Il procedimento è il seguente:
 - ottenere una rappresentazione in esadecimale dell'eseguibile (es.: con il comando xxd)
